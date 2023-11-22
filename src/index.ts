@@ -31,11 +31,11 @@ function getDayType(dayText: string): DayType {
 
 function makeProductionCalendar(html: HTMLElement): Record<string, DayType> {
   const calendarTitleElement = html.querySelector('h1')
-  assert(calendarTitleElement, 'Calendar title')
+  assert(calendarTitleElement, 'Calendar title not found')
   const yearFullNumber = calendarTitleElement.text.match(/\d+/)?.[0]
-  assert(yearFullNumber, 'Calendar year')
+  assert(yearFullNumber, 'Calendar year not found')
   const calendarRootElement = calendarTitleElement.parentNode
-  assert(calendarRootElement, 'Calendar root element')
+  assert(calendarRootElement, 'Calendar root element not found')
 
   const months = [
     'yanvar',
@@ -56,7 +56,7 @@ function makeProductionCalendar(html: HTMLElement): Record<string, DayType> {
     const monthRootElement: HTMLElement | undefined =
       calendarRootElement.querySelector(`[href$="/${month}/"]`)?.parentNode
         ?.parentNode
-    assert(monthRootElement, `Month element "${month}"`)
+    assert(monthRootElement, `Month element "${month}" not found`)
 
     const days = monthRootElement.querySelectorAll('._1c_LS,._1YS-8')
     const monthNumber = String(monthIndex + 1).padStart(2, '0')
@@ -64,8 +64,8 @@ function makeProductionCalendar(html: HTMLElement): Record<string, DayType> {
       const dayNumberText = dayElement.querySelector('[role="button"]')?.text
       const dayText =
         dayElement.querySelector('[role="tooltip"]')?.firstChild.text
-      assert(dayNumberText, 'Day number')
-      assert(dayText, 'Day text')
+      assert(dayNumberText, 'Day number not found')
+      assert(dayText, 'Day text not found')
       const dayNumber = dayNumberText.padStart(2, '0')
       return [
         `${yearFullNumber}-${monthNumber}-${dayNumber}`,
@@ -86,4 +86,5 @@ process.stdin.on('data', (data) => {
 process.stdin.once('end', () => {
   const calendar = makeProductionCalendar(parse(inputLines.join('')))
   process.stdout.write(JSON.stringify(calendar, null, 2))
+  console.log('Done')
 })
