@@ -34,7 +34,7 @@ function makeProductionCalendar(html: HTMLElement): Record<string, DayType> {
   assert(calendarTitleElement, 'Calendar title not found')
   const yearFullNumber = calendarTitleElement.text.match(/\d+/)?.[0]
   assert(yearFullNumber, 'Calendar year not found')
-  const calendarRootElement = calendarTitleElement.parentNode
+  const calendarRootElement = calendarTitleElement.parentNode?.parentNode?.parentNode
   assert(calendarRootElement, 'Calendar root element not found')
 
   const months = [
@@ -86,5 +86,4 @@ process.stdin.on('data', (data) => {
 process.stdin.once('end', () => {
   const calendar = makeProductionCalendar(parse(inputLines.join('')))
   process.stdout.write(JSON.stringify(calendar, null, 2))
-  console.log('Done')
 })
