@@ -2,20 +2,20 @@
 
 Граббер и парсер производственного календаря из [SuperJob](https://superjob.ru/proizvodstvennyj_kalendar)
 
-## Формат данных
+## Выходной формат данных
 
-```typescript
-enum DayType {
-  Weekend = 1,
-  Holiday = 2,
-  PreHoliday = 3,
-}
-
-type ProductionCalendar = { [date: string]: DayType }
+```yaml
+type: object
+patternProperties:
+  ^[0-9]{4}-[0-9]{2}-[0-9]{2}$:
+    enum:
+      - 1 # Weekend
+      - 2 # Holiday
+      - 3 # PreHoliday
 ```
 
 ## Запуск:
 
 ```bash
-curl https://www.superjob.ru/proizvodstvennyj_kalendar/2023/ -L | npm start > calendar.json
+curl https://www.superjob.ru/proizvodstvennyj_kalendar/2024/ -L | go run . > calendar.json
 ```
